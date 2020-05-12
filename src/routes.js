@@ -52,6 +52,6 @@ routes.post('/atualizaProduto', AtualizaProdutoController.store);
 routes.put('/atualizaProduto/:id_atualiza_produto', AtualizaProdutoController.update);
 routes.delete('/atualizaProduto/:id_atualiza_produto', AtualizaProdutoController.delete);
 
-routes.get('/Login', LoginController.logar);
+routes.get('/Login/:cpf/:senha', LoginController.logar);
 
 module.exports = routes;

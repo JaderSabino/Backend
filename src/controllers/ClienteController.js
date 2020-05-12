@@ -8,15 +8,27 @@ module.exports = {
             return res.status(200).send({message: "Nenhum Cliente Cadastrado"});
         }
             
-        return res.status(200).send({ clientes });
+        return res.status(200).json({ clientes });
     },
 
     async store(req, res) {
         const { cpf_cliente, nome_cliente, telefone, endereco } = req.body;
+        console.log(req.body);
+
+        const Consultacliente = await Cliente.findOne({where: {cpf_cliente: cpf_cliente}});
+
+        if(Consultacliente){
+            return res.status(200).json({ 
+                status: 2,
+                message: 'Cliente já cadastrado',
+                Consultacliente
+             });
+        }
 
         const cliente = await Cliente.create({ cpf_cliente, nome_cliente, telefone, endereco });
 
-        return res.status(200).send({ 
+
+        return res.status(200).json({ 
             status: 1,
             message: 'Cliente cadastrado com sucesso!',
             cliente
@@ -36,7 +48,7 @@ module.exports = {
             }
         });
 
-        return res.status(200).send({
+        return res.status(200).json({
             status: 1,
             message: 'Cliente atualizado com sucesso!'
         });
@@ -51,7 +63,7 @@ module.exports = {
             }
         });
 
-        return res.status(200).send({
+        return res.status(200).json({
             status: 1,
             message: 'Cliente excluído com sucesso!'
         });
