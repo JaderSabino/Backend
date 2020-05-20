@@ -24,7 +24,7 @@ routes.delete('/usuario/:cpf_usuario', UsuarioController.delete);
 
 routes.get('/clientes', ClienteController.index);
 routes.post('/cliente', ClienteController.store);
-routes.put('/cliente/:cpf_cliente', ClienteController.update);
+routes.put('/cliente/:cpf', ClienteController.update);
 routes.delete('/cliente/:cpf_cliente', ClienteController.delete);
 
 routes.get('/produtos', ProdutoController.index);

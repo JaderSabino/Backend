@@ -12,14 +12,22 @@ module.exports = {
     },
 
     async store(req, res) {
-        const { quantidade, valor_item, id_venda, id_produto } = req.body;
+        const itens = req.body;
 
-        const itemVenda = await ItemVenda.create({ quantidade, valor_item, id_venda, id_produto });
+        const listItens = []
+
+        for (let index = 0; index < itens.length; index++) {
+            const { quantidade, valor_item, id_venda, id_produto } = itens[index];
+            const itemVenda = await ItemVenda.create({ quantidade, valor_item, id_venda, id_produto });
+            listItens.push(itemVenda);
+        }
+
+        
 
         return res.status(200).send({ 
             status: 1,
             message: 'Item Venda cadastrada com sucesso!',
-            itemVenda
+            listItens
          });
     },
 

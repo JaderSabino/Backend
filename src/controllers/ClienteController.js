@@ -13,7 +13,6 @@ module.exports = {
 
     async store(req, res) {
         const { cpf_cliente, nome_cliente, telefone, endereco } = req.body;
-        console.log(req.body);
 
         const Consultacliente = await Cliente.findOne({where: {cpf_cliente: cpf_cliente}});
 
@@ -39,6 +38,15 @@ module.exports = {
         const { cpf_cliente, nome_cliente, telefone, endereco } = req.body;
 
         const { cpf } = req.params;
+        
+        const Consultacliente = await Cliente.findOne({where: {cpf_cliente: cpf}});
+
+        if(!Consultacliente){
+            return res.status(200).json({ 
+                status: 2,
+                message: 'Cliente não cadastrado!',
+             });
+        }
 
         await Cliente.update({
             cpf_cliente, nome_cliente, telefone, endereco

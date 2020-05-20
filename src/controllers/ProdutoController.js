@@ -13,7 +13,7 @@ module.exports = {
 
     async store(req, res) {
         const { nome_produto, preco, quantidade, unidade_medida, produto_ativo } = req.body;
-
+        
         const produto = await Produto.create({ nome_produto, preco, quantidade, unidade_medida, produto_ativo });
 
         return res.status(200).send({ 
