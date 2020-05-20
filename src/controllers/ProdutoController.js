@@ -24,12 +24,12 @@ module.exports = {
     },
 
     async update(req, res) {
-        const { nome_produto, preco, quantidade, unidade_medida, produto_ativo } = req.body;
+        const { nome_produto, preco, unidade_medida, produto_ativo } = req.body;
 
         const { id_produto } = req.params;
 
         await Produto.update({
-            nome_produto, preco, quantidade, unidade_medida, produto_ativo
+            nome_produto, preco, unidade_medida, produto_ativo
         },{
             where: {
                 id_produto: id_produto

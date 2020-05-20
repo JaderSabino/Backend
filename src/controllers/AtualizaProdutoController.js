@@ -1,4 +1,5 @@
 const AtualizaProduto = require('../models/AtualizaProduto');
+const Produto = require('../models/Produto');
 
 module.exports = {
     async index(req, res) {
@@ -12,13 +13,43 @@ module.exports = {
     },
 
     async store(req, res) {
-        const { operacao, preco_custo, quantidade, id_produto } = req.body;
+        const { operacao, quantidade_acao, id_produto } = req.body;
+
+        const produto = await Produto.findOne({where: {id_produto: id_produto}});
+
+        if(!produto){
+            return res.status(200).send({ 
+                status: 2,
+                message: 'Produto não cadastrado!',
+             });
+        }
+
+        let quantidade;
+        let preco_custo = produto['preco'];
+        let mensagem;
+
+        if(operacao == 'E'){
+            quantidade = Number(produto['quantidade']) + Number(quantidade_acao);
+            mensagem = 'Produto recebido com sucesso';
+        }else{
+            quantidade = Number(produto['quantidade']) - Number(quantidade_acao);
+            mensagem = 'Produto retirado com sucesso';
+        }
+
+        await Produto.update({
+            quantidade
+        },{
+            where: {
+                id_produto: id_produto
+            }
+        });
 
         const atualizaProduto = await AtualizaProduto.create({ operacao, preco_custo, quantidade, id_produto });
 
+
         return res.status(200).send({ 
             status: 1,
-            message: 'Atualização de produto cadastrada com sucesso!',
+            message: mensagem,
             atualizaProduto
          });
     },
