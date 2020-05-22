@@ -33,8 +33,10 @@ routes.put('/produto/:id_produto', ProdutoController.update);
 routes.delete('/produto/:id_produto', ProdutoController.delete);
 
 routes.get('/vendas', VendaController.index);
+routes.get('/getVendas/:cpf_cliente/:data', VendaController.getVendas);
 routes.post('/venda', VendaController.store);
 routes.put('/venda/:id_venda', VendaController.update);
+routes.put('/cancelaVenda/:id_venda', VendaController.cancelaVenda);
 routes.delete('/venda/:id_venda', VendaController.delete);
 
 routes.get('/itemVendas', ItemVendaController.index);

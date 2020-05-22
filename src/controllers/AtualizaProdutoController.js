@@ -13,44 +13,54 @@ module.exports = {
     },
 
     async store(req, res) {
-        const { operacao, quantidade_acao, id_produto } = req.body;
 
-        const produto = await Produto.findOne({where: {id_produto: id_produto}});
-
-        if(!produto){
-            return res.status(200).send({ 
-                status: 2,
-                message: 'Produto não cadastrado!',
-             });
-        }
-
-        let quantidade;
-        let preco_custo = produto['preco'];
+        let retorno = [];
         let mensagem;
 
-        if(operacao == 'E'){
-            quantidade = Number(produto['quantidade']) + Number(quantidade_acao);
-            mensagem = 'Produto recebido com sucesso';
-        }else{
-            quantidade = Number(produto['quantidade']) - Number(quantidade_acao);
-            mensagem = 'Produto retirado com sucesso';
-        }
+        let dadosEntrada = req.body;
+        console.log(dadosEntrada.length);
 
-        await Produto.update({
-            quantidade
-        },{
-            where: {
-                id_produto: id_produto
+        for (let index = 0; index < dadosEntrada.length; index++) {
+            const { operacao, quantidade_acao, id_produto } = dadosEntrada[index];
+
+            const produto = await Produto.findOne({where: {id_produto: id_produto}});
+    
+            if(!produto){
+                return res.status(200).send({ 
+                    status: 2,
+                    message: 'Produto não cadastrado!',
+                    id_produto: id_produto
+                 });
             }
-        });
+    
+            let quantidade;
+            let preco_custo = produto['preco'];
 
-        const atualizaProduto = await AtualizaProduto.create({ operacao, preco_custo, quantidade, id_produto });
-
+    
+            if(operacao == 'E'){
+                quantidade = Number(produto['quantidade']) + Number(quantidade_acao);
+                mensagem = 'Produto recebido com sucesso';
+            }else{
+                quantidade = Number(produto['quantidade']) - Number(quantidade_acao);
+                mensagem = 'Produto retirado com sucesso'; 
+            }
+    
+            await Produto.update({
+                quantidade
+            },{
+                where: {
+                    id_produto: id_produto
+                }
+            });
+    
+            const atualizaProduto = await AtualizaProduto.create({ operacao, preco_custo, quantidade, id_produto });
+            retorno.push(atualizaProduto);
+        }
 
         return res.status(200).send({ 
             status: 1,
             message: mensagem,
-            atualizaProduto
+            retorno
          });
     },
 
