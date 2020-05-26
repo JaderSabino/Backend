@@ -12,11 +12,6 @@ const LoginController = require('./controllers/LoginController');
 
 const routes = express.Router();
 
-routes.get('/', (req, res) => {
-    var name = req.body["name"];
-    return res.send({"informação": "" + name +""});
-});
-
 routes.get('/usuarios', UsuarioController.index);
 routes.post('/usuario', UsuarioController.store);
 routes.put('/usuario/:cpf_usuario', UsuarioController.update);

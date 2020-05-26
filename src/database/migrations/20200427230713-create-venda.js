@@ -18,7 +18,7 @@ module.exports = {
         allowNull: false
       },
       cpf_usuario: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {         
           model: 'usuario',
@@ -26,7 +26,7 @@ module.exports = {
         }
       },
       cpf_cliente: {
-        type: Sequelize.INTEGER,
+        type: Sequelize.STRING,
         allowNull: false,
         references: {         
           model: 'cliente',

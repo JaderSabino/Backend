@@ -48,6 +48,8 @@ module.exports = {
              });
         }
 
+        console.log(cpf_cliente, nome_cliente, telefone, endereco);
+
         await Cliente.update({
             cpf_cliente, nome_cliente, telefone, endereco
         },{
